@@ -9,26 +9,25 @@ function launchNetwork(jsonFileName) {
 	 jQuery.get(graphData, function( data ) {
 		 var responseJson= data.graph;
 		 eval(data.graph);
-         console.log("graphJSON: "+ graphJSON);
+		 
          console.dir(graphJSON);
-         console.log("allGraphData: "+ allGraphData);
          console.dir(allGraphData);
-         responseJson= responseJson.replaceAll('\n','').replaceAll('\"','"').replaceAll('\\/','/');
+		 console.log("numberOfConcepts= "+ allGraphData.ondexmetadata.numberOfConcepts);
+		 if(allGraphData.ondexmetadata.numberOfConcepts > 10/*3000*/) {
+			// filter out nodes/edges from graphJSON with conceptDisplay/relationDisplay:none, and keep their pid's to l;ater filter allGraphData
+			// for each node in nodes, check conceptDisplay:none and if yes, delete the node, and if no, retain pid.
+			// for each edge in in edges, check relationDisplay:none and yes, delete the edge and if no, retain pid.
+		   }
+		 
+         //responseJson= responseJson.replaceAll('\n','').replaceAll('\"','"').replaceAll('\\/','/');
+		 
          //responseJson= responseJson.replace('var graphJSON= ','"graphJSON":{"elements":').replace(']};',']},').replace('var allGraphData= ','');
          //responseJson= responseJson.substr(0,responseJson.length-1) +'}';
+		 // display
 		 var resp_array= responseJson.split("};");
+		 resp_array[0]=resp_array[0]+'}';
 		 $('#contents').html(resp_array[0]);
 		 $('#contents2').html(resp_array[1]);
-		 var this_graph, this_graph_metadata, numNodes, numEdges;
-         //console.log("graphJSON: "+ this_graph);
-         //console.log("allGraphData: "+ this_graph_metadata);
-         //console.log("nodes: "+ numNodes);
-         //console.log("edges: "+ numEdges);
-         //var resp_graph= responseJson.graphJSON.elements;
-         //var resp_metadata= responseJson.graphJSON.ondexmetadata;
-         //console.log("nodes: "+ resp_graph.numberOfConcepts);
-
-		 //$('#contents2').html('<br>'+ responseJson);
         });
     }
     catch(err) {
